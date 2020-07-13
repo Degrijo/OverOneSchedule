@@ -5,13 +5,13 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    student_groups = models.ManyToManyField('core.StudentGroup', related_name='students')
+    learning_groups = models.ManyToManyField('core.Group', related_name='students')
 
 
-class StudentGroup(models.Model):
-    teacher = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='student_groups')
+class Group(models.Model):
+    teacher = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='teaching_groups')
     is_online = models.BooleanField(default=False)
-    way = models.ForeignKey('core.Way', on_delete=models.CASCADE, related_name='student_groups')
+    way = models.ForeignKey('core.Way', on_delete=models.CASCADE, related_name='groups')
 
 
 class Lesson(models.Model):
@@ -19,7 +19,7 @@ class Lesson(models.Model):
     topics = models.ManyToManyField('core.Topic', related_name='lessons')
     room = models.ForeignKey('core.Room', on_delete=models.CASCADE, related_name='lessons')
     attachments = models.ForeignKey('core.Attachment', on_delete=models.CASCADE, related_name='lessons')
-    group = models.ForeignKey('core.StudentGroup', on_delete=models.CASCADE, related_name='lessons')
+    group = models.ForeignKey('core.Group', on_delete=models.CASCADE, related_name='lessons')
 
 
 class Way(models.Model):

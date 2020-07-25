@@ -23,7 +23,10 @@ class Lesson(models.Model):
 
 
 class Way(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, blank=False)
+
+    def __str__(self):
+        return self.title
 
 
 class Topic(models.Model):

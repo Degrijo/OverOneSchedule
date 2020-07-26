@@ -4,8 +4,10 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.views import View
 
-from app.core.forms import SignUpForm, LoginForm
+from app.core.forms import LoginForm
 
+
+#  TODO: RestorePasswordView, Email mailing, Telegram mailing
 
 class MainPageView(TemplateView):
     template_name = 'core/main_page.html'
@@ -13,15 +15,12 @@ class MainPageView(TemplateView):
 
 class SignUpView(FormView):
     template_name = 'core/signup.html'
-    form_class = SignUpForm
+    # form_class = SignUpForm
     success_url = reverse_lazy('home')
     extra_context = {'login_url': reverse_lazy('login')}
 
     def form_valid(self, form):
-        username = form.cleaned_data.get('username')
-        email = form.cleaned_data.get('email')
-        password = form.cleaned_data.get('password')
-        user = get_user_model().objects.create(username=username, email=email, password=password)
+        user = form.save()
         login(self.request, user)
         return super().form_valid(form)
 
@@ -44,3 +43,7 @@ class LogoutView(View):
     def post(self, request):
         logout(request)
         return redirect('home')
+
+
+class ProfileView(TemplateView):
+    template_name = 'core/profile.html'

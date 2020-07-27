@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, FormView
 from django.views import View
 
-from app.core.forms import LoginForm
+from app.core.forms import SignUpForm, LoginForm
 
 
 #  TODO: RestorePasswordView, Email mailing, Telegram mailing
@@ -15,7 +15,7 @@ class MainPageView(TemplateView):
 
 class SignUpView(FormView):
     template_name = 'core/signup.html'
-    # form_class = SignUpForm
+    form_class = SignUpForm
     success_url = reverse_lazy('home')
     extra_context = {'login_url': reverse_lazy('login')}
 
